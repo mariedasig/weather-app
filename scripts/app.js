@@ -25,12 +25,14 @@ const updateUI = (data) => {
   const iconSrc = `images/icons/${weather.WeatherIcon}.svg`;
   icon.setAttribute("src", iconSrc);
 
-  let timeSrc = null;
-  if (weather.IsDayTime) {
-    timeSrc = "images/day.svg";
-  } else {
-    timeSrc = "images/night.svg";
-  }
+  let timeSrc = weather.IsDayTime ? "images/day.svg" : "images/night.svg";
+
+  //   let timeSrc = null;
+  //   if (weather.IsDayTime) {
+  //     timeSrc = "images/day.svg";
+  //   } else {
+  //     timeSrc = "images/night.svg";
+  //   }
 
   time.setAttribute("src", timeSrc);
 
@@ -65,4 +67,17 @@ cityForm.addEventListener("submit", (e) => {
     .catch((err) => {
       console.log(err);
     });
+
+  // set local storage
+  localStorage.setItem("city", city);
 });
+
+if (localStorage.getItem("city")) {
+  updateCity(localStorage.getItem("city"))
+    .then((data) => {
+      updateUI(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
